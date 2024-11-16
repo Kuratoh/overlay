@@ -13,8 +13,8 @@
             padding: 0;
         }
 
+        /* Ensure the text container is always visible */
         .content {
-            display: none; /* Initially hidden */
             color: white;
             text-align: center;
             font-size: 24px;
@@ -26,6 +26,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80%; /* Make it responsive */
+            display: block; /* Ensure it’s always visible */
+            max-height: 80%; /* Limit height for long content */
+            overflow-y: auto; /* Scroll if content exceeds the max height */
         }
 
         .btn {
@@ -42,6 +45,17 @@
         .line {
             margin-bottom: 10px; /* Space between lines */
             font-size: 18px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards; /* Fade-in effect */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -54,6 +68,8 @@
     </div>
 
     <script>
+        console.log('Script loaded'); // Check if the script is loaded
+
         // Define an array of expressions to show
         const expressions = [
             "50€ - 20€-Giveaway während des Subathons",
@@ -75,4 +91,34 @@
         }
 
         // Button functionality to reveal text and add a new line each time it's clicked
-        const button = document.getElementById
+        const button = document.getElementById('showTextButton');
+        const textContainer = document.getElementById('text');
+
+        // Add event listener for button click
+        button.addEventListener('click', function() {
+            console.log('Button clicked'); // Log when the button is clicked
+
+            // Check if there are more expressions in the array
+            if (currentIndex < expressions.length) {
+                // Create a new div for the new line
+                const newLine = document.createElement('div');
+                newLine.classList.add('line');
+                newLine.textContent = expressions[currentIndex];
+
+                // Append it to the content container
+                textContainer.appendChild(newLine);
+                console.log('New line added:', newLine.textContent); // Log the new line
+
+                // Increment the index to show the next expression
+                currentIndex++;
+            } else {
+                console.log('No more expressions left');
+                // Optionally: reset to the first expression after all are shown
+                // currentIndex = 0; // Uncomment to loop through the expressions
+                // textContainer.innerHTML = ''; // Uncomment to clear previous lines
+            }
+        });
+    </script>
+
+</body>
+</html>
