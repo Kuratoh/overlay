@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Overlay</title>
     <style>
-        /* Add some basic styles */
+        /* Basic styling */
         body {
             font-family: Arial, sans-serif;
             background-color: transparent;
@@ -25,6 +25,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 80%; /* Make it responsive */
         }
 
         .btn {
@@ -36,19 +37,37 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .line {
+            margin-bottom: 10px; /* Space between lines */
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="content" id="text">
-        50€ - 20€-Giveaway während des Subathons
-    </div>
+    <div class="content" id="text"></div>
     
     <div class="btn" id="showTextButton">
         Click me!
     </div>
 
     <script>
+        // Define an array of expressions to show
+        const expressions = [
+            "50: 50€ - 20€-Giveaway während des Subathons",
+            "75: More prizes coming soon!",
+            "100: Keep the hype alive!",
+            "150: Join us for the fun!",
+            "200: Thank you for supporting the stream!",
+            "250: Blabla",
+            "350: Blablabla",
+            "500: Blablablabla",
+            "750: Blablablablabla",
+        ];
+
+        let currentIndex = 0; // Track the current expression index
+
         // Get the query parameters from the URL
         const params = new URLSearchParams(window.location.search);
 
@@ -58,10 +77,27 @@
             document.getElementById('text').style.display = 'block';
         }
 
-        // Button functionality to reveal text
+        // Button functionality to reveal text and add a new line each time it's clicked
         const button = document.getElementById('showTextButton');
+        const textContainer = document.getElementById('text');
+
         button.addEventListener('click', () => {
-            document.getElementById('text').style.display = 'block';
+            // If we have more expressions left, add one to the container
+            if (currentIndex < expressions.length) {
+                // Create a new div for the new line
+                const newLine = document.createElement('div');
+                newLine.classList.add('line');
+                newLine.textContent = expressions[currentIndex];
+
+                // Append it to the content container
+                textContainer.appendChild(newLine);
+
+                // Increment the index to show the next expression
+                currentIndex++;
+            } else {
+                // Optional: Reset or loop the text back if desired
+                console.log("All expressions shown.");
+            }
         });
     </script>
 
