@@ -44,11 +44,13 @@
             margin: 10px;
         }
 
+        /* Text line with stroke effect */
         .line {
             margin-bottom: 10px;
             font-size: 18px;
             opacity: 0;
             animation: fadeIn 0.5s forwards; /* Fade-in effect */
+            text-shadow: 2px 2px 3px black, 0 0 25px black, 0 0 5px darkblue; /* Add black stroke effect */
         }
 
         @keyframes fadeIn {
@@ -84,6 +86,7 @@
 
         let currentIndex = 0; // Track the current expression index
         const lines = []; // To track the added lines so we can remove them later
+        const removedLines = []; // Array to store removed lines for restoration
 
         // Button functionality to reveal text and add a new line each time it's clicked
         const button = document.getElementById('showTextButton');
@@ -93,24 +96,32 @@
         button.addEventListener('click', function() {
             console.log('Button clicked'); // Log when the button is clicked
 
-            // Check if there are more expressions in the array
-            if (currentIndex < expressions.length) {
-                // Create a new div for the new line
-                const newLine = document.createElement('div');
-                newLine.classList.add('line');
-                newLine.textContent = expressions[currentIndex];
-
-                // Append it to the content container
-                textContainer.appendChild(newLine);
-                console.log('New line added:', newLine.textContent); // Log the new line
-
-                // Add the line to the lines array for future removal
-                lines.push(newLine);
-
-                // Increment the index to show the next expression
-                currentIndex++;
+            // If there are removed lines, restore the first one
+            if (removedLines.length > 0) {
+                const restoredLine = removedLines.pop(); // Pop the most recently removed line (reverse order restoration)
+                textContainer.appendChild(restoredLine); // Restore it to the container
+                lines.push(restoredLine); // Add the restored line back into the lines array for future removal
+                console.log('Restored line:', restoredLine.textContent); // Log the restored line
             } else {
-                console.log('No more expressions left');
+                // Check if there are more expressions in the array
+                if (currentIndex < expressions.length) {
+                    // Create a new div for the new line
+                    const newLine = document.createElement('div');
+                    newLine.classList.add('line');
+                    newLine.textContent = expressions[currentIndex];
+
+                    // Append it to the content container
+                    textContainer.appendChild(newLine);
+                    console.log('New line added:', newLine.textContent); // Log the new line
+
+                    // Add this line to the lines array so it can be removed later
+                    lines.push(newLine);
+
+                    // Increment the index to show the next expression
+                    currentIndex++;
+                } else {
+                    console.log('No more expressions left');
+                }
             }
         });
 
@@ -123,6 +134,7 @@
                 // Remove the last line from the container
                 const lastLine = lines.pop();
                 textContainer.removeChild(lastLine);
+                removedLines.push(lastLine); // Add the removed line to the removedLines array
                 console.log('Last line removed');
             }
         });
