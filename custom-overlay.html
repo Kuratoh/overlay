@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Overlay</title>
+    <!-- Link to Google Fonts for Komika Axis -->
+    <link href="https://fonts.googleapis.com/css2?family=Komika+Axis&display=swap" rel="stylesheet">
     <style>
         /* Basic styling */
         body {
@@ -13,24 +15,24 @@
             padding: 0;
         }
 
-        /* Ensure the text container is always visible */
+        /* Text container styling */
         .content {
             color: white;
-            text-align: center;
+            text-align: left; /* Align text to the left */
             font-size: 24px;
-            background-color: rgba(0, 0, 0, 0.7);
+            font-family: 'Komika Axis', sans-serif; /* Set custom font */
             padding: 20px;
-            border-radius: 10px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%; /* Make it responsive */
-            display: block; /* Ensure it’s always visible */
-            max-height: 80%; /* Limit height for long content */
-            overflow-y: auto; /* Scroll if content exceeds the max height */
+            width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            display: block;
         }
 
+        /* Button styling */
         .btn {
             display: inline-block;
             background-color: #3498db;
@@ -43,7 +45,7 @@
         }
 
         .line {
-            margin-bottom: 10px; /* Space between lines */
+            margin-bottom: 10px;
             font-size: 18px;
             opacity: 0;
             animation: fadeIn 0.5s forwards; /* Fade-in effect */
@@ -57,6 +59,7 @@
                 opacity: 1;
             }
         }
+
     </style>
 </head>
 <body>
@@ -80,15 +83,7 @@
         ];
 
         let currentIndex = 0; // Track the current expression index
-
-        // Get the query parameters from the URL
-        const params = new URLSearchParams(window.location.search);
-
-        // Check if the 'show' query parameter is present
-        if (params.has('show') && params.get('show') === 'true') {
-            // Show the text when 'show=true' is passed
-            document.getElementById('text').style.display = 'block';
-        }
+        const lines = []; // To track the added lines so we can remove them later
 
         // Button functionality to reveal text and add a new line each time it's clicked
         const button = document.getElementById('showTextButton');
@@ -109,13 +104,26 @@
                 textContainer.appendChild(newLine);
                 console.log('New line added:', newLine.textContent); // Log the new line
 
+                // Add the line to the lines array for future removal
+                lines.push(newLine);
+
                 // Increment the index to show the next expression
                 currentIndex++;
             } else {
                 console.log('No more expressions left');
-                // Optionally: reset to the first expression after all are shown
-                // currentIndex = 0; // Uncomment to loop through the expressions
-                // textContainer.innerHTML = ''; // Uncomment to clear previous lines
+            }
+        });
+
+        // Right-click functionality to remove the last line
+        button.addEventListener('contextmenu', function(event) {
+            event.preventDefault(); // Prevent the default context menu
+
+            // Check if there are any lines to remove
+            if (lines.length > 0) {
+                // Remove the last line from the container
+                const lastLine = lines.pop();
+                textContainer.removeChild(lastLine);
+                console.log('Last line removed');
             }
         });
     </script>
