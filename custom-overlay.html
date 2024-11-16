@@ -55,15 +55,11 @@
     <script>
         // Define an array of expressions to show
         const expressions = [
-            "50: 50€ - 20€-Giveaway während des Subathons",
-            "75: More prizes coming soon!",
-            "100: Keep the hype alive!",
-            "150: Join us for the fun!",
-            "200: Thank you for supporting the stream!",
-            "250: Blabla",
-            "350: Blablabla",
-            "500: Blablablabla",
-            "750: Blablablablabla",
+            "50€ - 20€-Giveaway während des Subathons",
+            "More prizes coming soon!",
+            "Keep the hype alive!",
+            "Join us for the fun!",
+            "Thank you for supporting the stream!"
         ];
 
         let currentIndex = 0; // Track the current expression index
@@ -82,7 +78,7 @@
         const textContainer = document.getElementById('text');
 
         button.addEventListener('click', () => {
-            // If we have more expressions left, add one to the container
+            // Check if there are more expressions in the array
             if (currentIndex < expressions.length) {
                 // Create a new div for the new line
                 const newLine = document.createElement('div');
@@ -95,8 +91,10 @@
                 // Increment the index to show the next expression
                 currentIndex++;
             } else {
-                // Optional: Reset or loop the text back if desired
-                console.log("All expressions shown.");
+                // Optionally, loop back to the first expression
+                // Uncomment the next two lines if you want to loop the text back
+                // currentIndex = 0;  // Reset the index to start over
+                // textContainer.innerHTML = '';  // Clear the existing lines
             }
         });
     </script>
