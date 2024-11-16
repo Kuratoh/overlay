@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Overlay</title>
+    <style>
+        /* Add some basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            display: none; /* Initially hidden */
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            font-size: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content" id="text">
+        50€ - 20€-Giveaway während des Subathons
+    </div>
+    
+    <div class="btn" id="showTextButton">
+        Click me!
+    </div>
+
+    <script>
+        // Get the query parameters from the URL
+        const params = new URLSearchParams(window.location.search);
+
+        // Check if the 'show' query parameter is present
+        if (params.has('show') && params.get('show') === 'true') {
+            // Show the text when 'show=true' is passed
+            document.getElementById('text').style.display = 'block';
+        }
+
+        // Button functionality to reveal text
+        const button = document.getElementById('showTextButton');
+        button.addEventListener('click', () => {
+            document.getElementById('text').style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
